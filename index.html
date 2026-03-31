@@ -35,12 +35,14 @@ canvas {
     font-size: 70px;
     opacity: 0;
     transition: opacity 1.5s;
+    text-shadow: none;
 }
 
 #heart {
     font-size: 100px;
     opacity: 0;
     transition: 3s;
+    text-shadow: none;
 }
 
 @media (max-width: 700px) {
@@ -73,7 +75,6 @@ function startAll() {
     startText();
 }
 
-// MATRIX SENTENCE RAIN
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -84,7 +85,7 @@ function resizeCanvas() {
 }
 
 const phrase = "i love you bell";
-const fontSize = 14;
+const fontSize = 16;
 let columns = 0;
 let drops = [];
 
@@ -106,7 +107,7 @@ function draw() {
     for (let i = 0; i < drops.length; i++) {
         ctx.fillText(phrase, i * fontSize, drops[i]);
 
-        drops[i] += 1; // VERY SLOW
+        drops[i] += 1;
 
         if (drops[i] > canvas.height + 50) {
             drops[i] = -Math.random() * 500;
@@ -118,7 +119,6 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 setInterval(draw, 35);
 
-// CENTER TEXT
 const steps = [
     "3",
     "2",
