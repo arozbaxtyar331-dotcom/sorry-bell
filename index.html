@@ -4,56 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>I'm Sorry Bell</title>
+
 <style>
-    body {
-        margin: 0;
-        background: black;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-    }
+body {
+    margin: 0;
+    background: black;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
 
-    canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-    }
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 
-    .center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: #ff66cc;
-        text-shadow: 0 0 20px #ff66cc;
-        font-weight: bold;
-        width: 90%;
-        z-index: 2;
-    }
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #ff66cc;
+    text-shadow: 0 0 20px #ff66cc;
+    font-weight: bold;
+    width: 90%;
+    z-index: 2;
+}
 
-    #text {
-        font-size: 70px;
-        opacity: 0;
-        transition: opacity 1s;
-    }
+#text {
+    font-size: 70px;
+    opacity: 0;
+    transition: opacity 1s;
+}
 
-    #heart {
-        font-size: 100px;
-        opacity: 0;
-        transition: 2s;
-    }
+#heart {
+    font-size: 100px;
+    opacity: 0;
+    transition: 2s;
+}
 
-    @media (max-width: 700px) {
-        #text {
-            font-size: 40px;
-        }
-
-        #heart {
-            font-size: 60px;
-        }
-    }
+@media (max-width: 700px) {
+    #text { font-size: 40px; }
+    #heart { font-size: 60px; }
+}
 </style>
 </head>
+
 <body onclick="startAll()">
 
 <audio id="music" preload="auto" loop>
@@ -73,68 +70,47 @@ let started = false;
 function startAll() {
     if (started) return;
     started = true;
-
-    document.getElementById("music").play().catch(() => {});
+    document.getElementById("music").play().catch(()=>{});
     startText();
 }
 
+// MATRIX TEXT RAIN (SMALL TEXT)
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    createDrops();
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const phrase = "i love you bell";
+const fontSize = 14;   // smaller text
+const columns = canvas.width / fontSize;
+const drops = [];
+
+for (let i = 0; i < columns; i++) {
+    drops[i] = Math.random() * canvas.height;
 }
 
-window.addEventListener("resize", resizeCanvas);
-
-const phrase = "I LOVE YOU BELL";
-const fontSize = 22;
-const columnWidth = 220;
-let drops = [];
-
-function createDrops() {
-    const columns = Math.ceil(canvas.width / columnWidth);
-    drops = [];
-
-    for (let i = 0; i < columns; i++) {
-        drops.push({
-            x: i * columnWidth + 10,
-            y: Math.random() * -canvas.height,
-            speed: 2 + Math.random() * 2
-        });
-    }
-}
-
-function drawBackground() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+function draw() {
+    ctx.fillStyle = "rgba(0,0,0,0.08)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ff2e88";
-    ctx.font = "bold " + fontSize + "px Arial";
-    ctx.shadowColor = "#ff2e88";
-    ctx.shadowBlur = 10;
+    ctx.font = fontSize + "px monospace";
 
     for (let i = 0; i < drops.length; i++) {
-        const d = drops[i];
+        ctx.fillText(phrase, i * fontSize, drops[i]);
 
-        ctx.fillText(phrase, d.x, d.y);
+        drops[i] += fontSize;
 
-        d.y += d.speed;
-
-        if (d.y > canvas.height + 50) {
-            d.y = -50 - Math.random() * 300;
+        if (drops[i] > canvas.height) {
+            drops[i] = 0;
         }
     }
-
-    ctx.shadowBlur = 0;
 }
 
-resizeCanvas();
-setInterval(drawBackground, 40);
+setInterval(draw, 40);
 
-// Center text steps
+// CENTER TEXT STEPS
 const steps = [
     "3",
     "2",
@@ -152,7 +128,6 @@ const heart = document.getElementById("heart");
 
 function startText() {
     showStep();
-
     const interval = setInterval(showStep, 2000);
 
     function showStep() {
