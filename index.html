@@ -25,8 +25,8 @@ canvas {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    color: #ff4da6;
-    text-shadow: 0 0 20px #ff4da6;
+    color: #ff66cc;
+    text-shadow: 0 0 20px #ff66cc;
     font-weight: bold;
     width: 90%;
 }
@@ -40,7 +40,7 @@ canvas {
 #heart {
     font-size: 100px;
     opacity: 0;
-    transition: 1s;
+    transition: 2s;
 }
 
 @media (max-width: 700px) {
@@ -49,9 +49,10 @@ canvas {
 }
 </style>
 </head>
+
 <body onclick="startAll()">
 
-<audio id="music" loop>
+<audio id="music" preload="auto" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
@@ -63,7 +64,12 @@ canvas {
 </div>
 
 <script>
+let started = false;
+
 function startAll() {
+    if (started) return;
+    started = true;
+
     document.getElementById("music").play();
     startText();
 }
@@ -75,7 +81,7 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const letters = "IMSORRYBELL123456789".split("");
+const letters = ("I LOVE YOU BELL ").repeat(20).split("");
 const fontSize = 16;
 const columns = canvas.width / fontSize;
 const drops = [];
@@ -85,7 +91,7 @@ for (let i = 0; i < columns; i++) drops[i] = 1;
 function draw() {
     ctx.fillStyle = "rgba(0,0,0,0.08)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ff4da6";
+    ctx.fillStyle = "#ff2e88";
     ctx.font = fontSize + "px monospace";
 
     for (let i = 0; i < drops.length; i++) {
