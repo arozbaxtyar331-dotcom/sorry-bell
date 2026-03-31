@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry Bell</title>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+
+    .center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        text-align: center;
+        color: #ff4da6;
+        text-shadow: 0 0 20px #ff4da6;
+        font-weight: bold;
+        width: 90%;
+    }
+
+    #text {
+        font-size: 80px;
+        opacity: 0;
+        transition: opacity 0.8s ease, transform 0.8s ease;
+        transform: scale(0.8);
+    }
+
+    #text.show {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    #finalMessage {
+        margin-top: 20px;
+        font-size: 42px;
+        opacity: 0;
+        transition: opacity 1.2s ease;
+    }
+
+    #finalMessage.show {
+        opacity: 1;
+    }
+
+    @media (max-width: 700px) {
+        #text {
+            font-size: 48px;
+        }
+
+        #finalMessage {
+            font-size: 28px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="center">
+    <div id="text"></div>
+    <div id="finalMessage">it was my fault 💔</div>
+</div>
+
+<script>
+    // Matrix background
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    const letters = "IMSORRYBELL1234567890".split("");
+    const fontSize = 18;
+    let columns = Math.floor(window.innerWidth / fontSize);
+    let drops = Array(columns).fill(1);
+
+    window.addEventListener("resize", () => {
+        columns = Math.floor(window.innerWidth / fontSize);
+        drops = Array(columns).fill(1);
+    });
+
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#ff4da6";
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+            const char = letters[Math.floor(Math.random() * letters.length)];
+            ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+
+    setInterval(drawMatrix, 40);
+
+    // Step-by-step text
+    const text = document.getElementById("text");
+    const finalMessage = document.getElementById("finalMessage");
+
+    const steps = ["I'm", "sorry", "bell"];
+    let index = 0;
+
+    function showStep() {
+        text.classList.remove("show");
+
+        setTimeout(() => {
+            if (index < steps.length) {
+                text.textContent = steps[index];
+                text.classList.add("show");
+                index++;
+            } else {
+                text.textContent = "I'm sorry bell";
+                text.classList.add("show");
+                finalMessage.classList.add("show");
+                clearInterval(stepInterval);
+            }
+        }, 400);
+    }
+
+    showStep();
+    const stepInterval = setInterval(showStep, 1800);
+</script>
+
+</body>
+</html>
