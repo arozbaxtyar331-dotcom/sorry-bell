@@ -74,7 +74,7 @@ function startAll() {
     startText();
 }
 
-// VERY FEW FALLING TEXT
+// Falling text settings
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -82,13 +82,17 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const phrase = "i love you bell";
-const fontSize = 24; // bigger text
+const fontSize = 20;
 
 let lines = [
-    {x: 50, y: -100, speed: 0.3},
-    {x: 300, y: -300, speed: 0.4},
-    {x: 600, y: -200, speed: 0.35},
-    {x: 900, y: -400, speed: 0.3}
+    {x: 50, y: -100, speed: 1},
+    {x: 200, y: -300, speed: 1.2},
+    {x: 350, y: -200, speed: 1},
+    {x: 500, y: -400, speed: 1.3},
+    {x: 650, y: -150, speed: 1},
+    {x: 800, y: -350, speed: 1.2},
+    {x: 950, y: -250, speed: 1},
+    {x: 1100, y: -450, speed: 1.3}
 ];
 
 function draw() {
@@ -108,9 +112,9 @@ function draw() {
     }
 }
 
-setInterval(draw, 40);
+setInterval(draw, 30);
 
-// CENTER TEXT STEPS
+// Center text steps
 const steps = [
     "3",
     "2",
@@ -128,7 +132,7 @@ const heart = document.getElementById("heart");
 
 function startText() {
     showStep();
-    const interval = setInterval(showStep, 2300);
+    const interval = setInterval(showStep, 2000);
 
     function showStep() {
         textDiv.style.opacity = 0;
