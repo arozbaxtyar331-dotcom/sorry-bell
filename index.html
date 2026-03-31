@@ -74,7 +74,7 @@ function startAll() {
     startText();
 }
 
-// BACKGROUND FALLING TEXT (SLOW + READABLE)
+// VERY FEW FALLING TEXT
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -82,41 +82,32 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const phrase = "i love you bell";
-const fontSize = 18;      // text size
-const columnWidth = 200;  // distance between columns (bigger = fewer sentences)
-let drops = [];
+const fontSize = 24; // bigger text
 
-function setup() {
-    const columns = Math.floor(canvas.width / columnWidth);
-    drops = [];
-    for (let i = 0; i < columns; i++) {
-        drops.push({
-            x: i * columnWidth,
-            y: Math.random() * -canvas.height,
-            speed: 0.5 + Math.random() * 0.5   // slow speed
-        });
-    }
-}
+let lines = [
+    {x: 50, y: -100, speed: 0.3},
+    {x: 300, y: -300, speed: 0.4},
+    {x: 600, y: -200, speed: 0.35},
+    {x: 900, y: -400, speed: 0.3}
+];
 
 function draw() {
-    ctx.fillStyle = "rgba(0,0,0,0.12)";
+    ctx.fillStyle = "rgba(0,0,0,0.15)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ff2e88";
     ctx.font = fontSize + "px Arial";
 
-    for (let i = 0; i < drops.length; i++) {
-        let d = drops[i];
-        ctx.fillText(phrase, d.x, d.y);
-        d.y += d.speed;
+    for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(phrase, lines[i].x, lines[i].y);
+        lines[i].y += lines[i].speed;
 
-        if (d.y > canvas.height) {
-            d.y = -50;
+        if (lines[i].y > canvas.height) {
+            lines[i].y = -100;
         }
     }
 }
 
-setup();
 setInterval(draw, 40);
 
 // CENTER TEXT STEPS
@@ -137,7 +128,7 @@ const heart = document.getElementById("heart");
 
 function startText() {
     showStep();
-    const interval = setInterval(showStep, 2200);
+    const interval = setInterval(showStep, 2300);
 
     function showStep() {
         textDiv.style.opacity = 0;
