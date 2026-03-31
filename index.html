@@ -74,7 +74,7 @@ function startAll() {
     startText();
 }
 
-// MATRIX TEXT RAIN (SMALL TEXT)
+// BACKGROUND FALLING TEXT (SLOW + READABLE)
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -82,32 +82,41 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const phrase = "i love you bell";
-const fontSize = 14;   // smaller text
-const columns = canvas.width / fontSize;
-const drops = [];
+const fontSize = 18;      // text size
+const columnWidth = 200;  // distance between columns (bigger = fewer sentences)
+let drops = [];
 
-for (let i = 0; i < columns; i++) {
-    drops[i] = Math.random() * canvas.height;
+function setup() {
+    const columns = Math.floor(canvas.width / columnWidth);
+    drops = [];
+    for (let i = 0; i < columns; i++) {
+        drops.push({
+            x: i * columnWidth,
+            y: Math.random() * -canvas.height,
+            speed: 0.5 + Math.random() * 0.5   // slow speed
+        });
+    }
 }
 
 function draw() {
-    ctx.fillStyle = "rgba(0,0,0,0.08)";
+    ctx.fillStyle = "rgba(0,0,0,0.12)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ff2e88";
-    ctx.font = fontSize + "px monospace";
+    ctx.font = fontSize + "px Arial";
 
     for (let i = 0; i < drops.length; i++) {
-        ctx.fillText(phrase, i * fontSize, drops[i]);
+        let d = drops[i];
+        ctx.fillText(phrase, d.x, d.y);
+        d.y += d.speed;
 
-        drops[i] += fontSize;
-
-        if (drops[i] > canvas.height) {
-            drops[i] = 0;
+        if (d.y > canvas.height) {
+            d.y = -50;
         }
     }
 }
 
+setup();
 setInterval(draw, 40);
 
 // CENTER TEXT STEPS
@@ -128,7 +137,7 @@ const heart = document.getElementById("heart");
 
 function startText() {
     showStep();
-    const interval = setInterval(showStep, 2000);
+    const interval = setInterval(showStep, 2200);
 
     function showStep() {
         textDiv.style.opacity = 0;
