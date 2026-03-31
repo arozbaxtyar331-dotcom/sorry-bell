@@ -73,7 +73,6 @@ function startAll() {
     startText();
 }
 
-// MATRIX RAIN TEXT
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -84,7 +83,7 @@ function resizeCanvas() {
 }
 
 const phrase = "i love you bell";
-const fontSize = 9; // smaller = more sentences
+const fontSize = 9;
 let columns = 0;
 let drops = [];
 
@@ -97,26 +96,26 @@ function setupDrops() {
 }
 
 function draw() {
-    ctx.fillStyle = "rgba(0,0,0,0.15)";
+    ctx.fillStyle = "rgba(0,0,0,0.10)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#ff66cc"; // no shadow, clear color
+    ctx.fillStyle = "#ff66cc";
     ctx.font = fontSize + "px monospace";
 
     for (let i = 0; i < drops.length; i++) {
         ctx.fillText(phrase, i * fontSize, drops[i]);
 
-        drops[i] += 6; // speed
+        drops[i] += 4; // a little slower
 
-        if (drops[i] > canvas.height) {
-            drops[i] = -50;
+        if (drops[i] > canvas.height + 50) {
+            drops[i] = -Math.random() * 300;
         }
     }
 }
 
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
-setInterval(draw, 25);
+setInterval(draw, 30);
 
 // CENTER TEXT
 const steps = [
