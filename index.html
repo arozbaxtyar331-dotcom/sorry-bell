@@ -70,28 +70,34 @@ let started = false;
 function startAll() {
     if (started) return;
     started = true;
-    document.getElementById("music").play().catch(()=>{});
+    document.getElementById("music").play().catch(() => {});
     startText();
 }
 
-// MATRIX RAIN WITH SENTENCES
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    setupDrops();
+}
 
 const phrase = "i love you bell";
-const fontSize = 18;
-const columns = canvas.width / fontSize;
-const drops = [];
+const fontSize = 10; // smaller = more sentences
+let columns = 0;
+let drops = [];
 
-for (let i = 0; i < columns; i++) {
-    drops[i] = Math.random() * canvas.height;
+function setupDrops() {
+    columns = Math.floor(canvas.width / fontSize);
+    drops = [];
+    for (let i = 0; i < columns; i++) {
+        drops.push(Math.random() * canvas.height);
+    }
 }
 
 function draw() {
-    ctx.fillStyle = "rgba(0,0,0,0.1)";
+    ctx.fillStyle = "rgba(0,0,0,0.12)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ff2e88";
@@ -100,15 +106,17 @@ function draw() {
     for (let i = 0; i < drops.length; i++) {
         ctx.fillText(phrase, i * fontSize, drops[i]);
 
-        drops[i] += 2; // SPEED (increase for faster)
+        drops[i] += 5; // faster
 
-        if (drops[i] > canvas.height) {
-            drops[i] = 0;
+        if (drops[i] > canvas.height + 50) {
+            drops[i] = -Math.random() * 500;
         }
     }
 }
 
-setInterval(draw, 30);
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+setInterval(draw, 25);
 
 // CENTER TEXT STEPS
 const steps = [
